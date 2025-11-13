@@ -1,0 +1,1 @@
+export default function Accessibility(){return(<main className='p-6'><h1 className='text-2xl font-bold'>Accessibility Statement</h1><p>WCAG 2.1 AA commitment.</p></main>)}

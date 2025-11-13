@@ -1,0 +1,1 @@
+export default function Terms(){return(<main className='p-6'><h1 className='text-2xl font-bold'>Terms of Use</h1><p>Portal terms per CSIR/GoI.</p></main>)}

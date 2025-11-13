@@ -1,0 +1,18 @@
+
+{
+  "name": "csir-serc-recruitment",
+  "private": true,
+  "workspaces": ["apps/web","apps/api","packages/prisma"],
+  "scripts": {
+    "dev": "concurrently "npm:dev:web" "npm:dev:api"",
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:api": "npm --workspace apps/api run dev",
+    "build": "npm --workspace apps/web run build && npm --workspace apps/api run build",
+    "prisma:generate": "npm --workspace packages/prisma run generate",
+    "prisma:migrate": "npm --workspace packages/prisma run migrate",
+    "seed": "npm --workspace packages/prisma run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

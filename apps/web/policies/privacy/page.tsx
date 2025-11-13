@@ -1,0 +1,1 @@
+export default function Privacy(){return(<main className='p-6'><h1 className='text-2xl font-bold'>Privacy Policy</h1><p>GIGW 3.0 aligned privacy notes.</p></main>)}

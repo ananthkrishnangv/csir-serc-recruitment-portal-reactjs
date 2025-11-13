@@ -1,0 +1,1 @@
+export default function WIM(){return(<main className='p-6'><h1 className='text-2xl font-bold'>Web Information Manager</h1><p>Contact: wim@serc.res.in</p></main>)}

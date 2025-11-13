@@ -1,0 +1,15 @@
+
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "mysql"; url = env("DATABASE_URL") }
+model User { id String @id @default(cuid()); email String @unique; password String; name String; mobile String? @unique; role Role @default(APPLICANT); createdAt DateTime @default(now()); updatedAt DateTime @updatedAt; applications Application[]; audits Audit[] }
+enum Role { ADMIN APPROVER REVIEWER APPLICANT }
+model Lab { id String @id @default(cuid()); code String @unique; name String; address String?; createdAt DateTime @default(now()); jobs JobPost[] }
+model Department { id String @id @default(cuid()); code String @unique; name String; jobs JobPost[] }
+enum JobCategory { TECHNICIAN TECHNICAL_ASSISTANT TECHNICAL_OFFICER SCIENTIST }
+model JobPost { id String @id @default(cuid()); code String @unique; title String; category JobCategory; labId String; lab Lab @relation(fields: [labId], references: [id]); departmentId String?; department Department? @relation(fields: [departmentId], references: [id]); status String @default("OPEN"); description String?; openDate DateTime; closeDate DateTime; crucialDate DateTime; ageMin Int?; ageMax Int?; qualsJson Json?; reservationJson Json?; formId String?; createdAt DateTime @default(now()); updatedAt DateTime @updatedAt; applications Application[] }
+model FormDefinition { id String @id @default(cuid()); name String; version Int @default(1); type JobCategory; steps Json; requiredDocs Json?; createdAt DateTime @default(now()) }
+model Application { id String @id @default(cuid()); applicationNo String @unique; userId String; user User @relation(fields: [userId], references: [id]); jobId String; job JobPost @relation(fields: [jobId], references: [id]); status String @default("DRAFT"); data Json?; eligibility Json?; submittedAt DateTime?; receiptUrl String?; createdAt DateTime @default(now()); updatedAt DateTime @updatedAt; documents Document[] }
+model Document { id String @id @default(cuid()); applicationId String; application Application @relation(fields: [applicationId], references: [id]); kind String; filename String; url String; ocrText String?; checksum String?; verified Boolean @default(false); notes String?; uploadedAt DateTime @default(now()); audits DocumentAudit[] }
+model DocumentAudit { id String @id @default(cuid()); documentId String; document Document @relation(fields: [documentId], references: [id]); reviewerId String?; reviewer User? @relation(fields: [reviewerId], references: [id]); action String; notes String?; createdAt DateTime @default(now()) }
+model Audit { id String @id @default(cuid()); actorId String?; actor User? @relation(fields: [actorId], references: [id]); entity String; entityId String; action String; details Json?; createdAt DateTime @default(now()) }
+model PolicyPage { id String @id @default(cuid()); slug String @unique; title String; content String; published Boolean @default(true); createdAt DateTime @default(now()) }
